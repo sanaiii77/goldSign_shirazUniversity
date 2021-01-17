@@ -65,7 +65,7 @@ public class AddMajorFragment extends Fragment {
                     insertMajor(newMajor);
 
                 }else {
-                    Toast.makeText(getActivity(),"major exist",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"گرایش موجود است",Toast.LENGTH_LONG).show();
 
                 }
 
@@ -103,11 +103,9 @@ public class AddMajorFragment extends Fragment {
                 new JsonObjectRequest(Request.Method.POST, Django.URL+"major/create/", postData, new com.android.volley.Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(getActivity(), response.toString()+"", Toast.LENGTH_LONG).show();
-                        System.out.println(response);
+                        Toast.makeText(getActivity(), "گرایش افزوده شد", Toast.LENGTH_LONG).show();
                         //udate user & teacher list for next oprations
                         getMajorListSetSpinner();
-                        Toast.makeText(getActivity(), "گرایش جدید افزوده شد", Toast.LENGTH_SHORT).show();
                         goToDefaultFargment();
 
 
@@ -135,7 +133,7 @@ public class AddMajorFragment extends Fragment {
         call.enqueue(new Callback<List<Major>>() {
             @Override
             public void onResponse(Call<List<Major>> call, retrofit2.Response<List<Major>> response) {
-                Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                 Django.majorList = response.body() ;
                 majors = new ArrayList<>();
                 for (int i=0 ; i<Django.majorList.size();i++){

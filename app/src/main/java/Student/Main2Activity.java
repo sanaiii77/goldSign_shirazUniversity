@@ -1,13 +1,16 @@
 package Student;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import Teacher.Main3Activity;
 import jango.DatetimeRange;
 import jango.Django;
 import jango.MT;
@@ -19,6 +22,7 @@ import com.sanai.testapp.R;
 
 import root.CompareTwoDatesTest;
 import root.DateConverter;
+import root.LoginActivity;
 import root.converter;
 import saman.zamani.persiandate.PersianDate;
 import saman.zamani.persiandate.PersianDateFormat;
@@ -48,6 +52,7 @@ public class Main2Activity extends AppCompatActivity {
     public static String familyName ;
     public static int grade;
 
+    ImageButton logOutStudent ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class Main2Activity extends AppCompatActivity {
         selectTeacher = findViewById(R.id.selectTeachersByStudentButton);
         changePass = findViewById(R.id.changepasswordByStudentButton);
         result = findViewById(R.id.showResultOfSelectionTeacherByStudentButton);
+        logOutStudent = findViewById(R.id.logOutStudent);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -108,6 +114,14 @@ public class Main2Activity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.flContainerForStudent,new ResultFragmnet());
                 fragmentTransaction.commit();
 
+            }
+        });
+        logOutStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(Main2Activity.this, LoginActivity.class);
+                Main2Activity.this.startActivity(mainIntent);
+                Main2Activity.this.finish();
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.sanai.testapp;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -18,8 +19,10 @@ import android.widget.ProgressBar;
 
 import java.util.Calendar;
 
+import Teacher.Main3Activity;
 import jango.Django;
 import root.ChangePassword;
+import root.LoginActivity;
 import root.converter;
 
 
@@ -149,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.addTmt: //
                 fragmentTransaction.replace(R.id.flcontent,new AddTMT());
                 break;
+            case R.id.logout: //
+                Intent mainIntent = new Intent(MainActivity.this, LoginActivity.class);
+                MainActivity.this.startActivity(mainIntent);
+                MainActivity.this.finish();                break;
             default:
                 fragmentTransaction.replace(R.id.flcontent,new defaultFragment());
 

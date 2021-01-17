@@ -1,11 +1,13 @@
 package Teacher;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -19,20 +21,17 @@ import jango.TMT;
 import jango.Teacher;
 import jango.Term;
 import root.ChangePassword;
+
+import com.sanai.testapp.MainActivity;
 import com.sanai.testapp.R;
 import com.sanai.testapp.TmtCalenderForTeacherActivity;
 
 import Student.ResultFragmnet;
 import root.CheckTime;
-import root.CompareTwoDatesTest;
-import root.converter;
+import root.LoginActivity;
+
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-
-import Student.SelectTeachersFragemnt;
 
 public class Main3Activity extends AppCompatActivity {
 
@@ -44,7 +43,7 @@ public class Main3Activity extends AppCompatActivity {
     FrameLayout container ;
     LinearLayout selectTeacher , changePass ,result ;
     FragmentTransaction fragmentTransaction;
-
+    ImageButton logOutTeacher ;
     //*************************************************************
     public static ArrayList<TMT> teacher_active_TMT = new ArrayList<>();
     public static ArrayList<TMT> teacher_active_TMT_but_notdone = new ArrayList<>();
@@ -67,6 +66,7 @@ public class Main3Activity extends AppCompatActivity {
         selectTeacher = findViewById(R.id.selectStudentByTechearButton);
         changePass = findViewById(R.id.changepasswordByTechearButton);
         result = findViewById(R.id.showResultOfSelectionStudentByTeacherstButton);
+        logOutTeacher = findViewById(R.id.logOutTeacher);
 
         //**************************************************************
         Toast.makeText(getApplicationContext(), Django.today[0]+"-"+Django.today[1]+"-"+Django.today[2]+"-", Toast.LENGTH_SHORT).show();
@@ -108,6 +108,15 @@ public class Main3Activity extends AppCompatActivity {
                 fragmentTransaction   =getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.flContainerForTechear,new TmtCalenderForTeacherActivity());
                 fragmentTransaction.commit();
+
+            }
+        });
+        logOutTeacher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mainIntent = new Intent(Main3Activity.this, LoginActivity.class);
+                Main3Activity.this.startActivity(mainIntent);
+                Main3Activity.this.finish();
 
             }
         });

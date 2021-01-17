@@ -9,4 +9,5 @@
     <item android:id="@+id/addStudent" android:title="افزودن دانشجو" android:icon="@drawable/ic_person_add_black_24dp"/>
     <item android:id="@+id/selectTerm" android:title="لیست ترم" android:icon="@drawable/ic_list"/>
     <item android:id="@+id/setting" android:title="تغیر رمز عبور" android:icon="@drawable/ic_lock" />
+    <item android:id="@+id/logout" android:title="خروج" android:icon="@drawable/ic_arrow_back" />
 </menu>

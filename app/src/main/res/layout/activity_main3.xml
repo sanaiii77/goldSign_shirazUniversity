@@ -18,10 +18,12 @@
             android:weightSum="6"
             android:orientation="horizontal"
             android:layout_margin="2dp">
-            <ImageView
+            <ImageButton
+                android:id="@+id/logOutTeacher"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:background="@null"
                 android:src="@drawable/ic_arrow_back"/>
             <TextView
 
