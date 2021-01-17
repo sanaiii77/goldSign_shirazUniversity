@@ -1,0 +1,10 @@
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="@dimen/_13sdp"
+    android:gravity="center"
+    android:textColor="@color/colorPrimaryDark"
+    android:fontFamily="@font/lalezar_font"
+    android:padding="2dip"
+    />

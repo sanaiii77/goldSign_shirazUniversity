@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/white"
+    tools:context="root.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="7">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/design_top"
+            android:layout_weight="1"/>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".5"></FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/rounded_edittext"
+            android:layout_weight="4.5"
+            android:weightSum="5"
+            android:layout_marginRight="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_20sdp"
+                android:gravity="center"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/lalezar_font"
+                android:text="ورود کاربر"/>
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:weightSum="3">
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"></FrameLayout>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_account_box"/>
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"></FrameLayout>
+            </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".6"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_edittext">
+
+                <EditText
+                    android:id="@+id/user"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:background="@android:color/transparent"
+                    android:inputType="textPassword"
+                    android:textDirection="rtl"
+                    android:padding="1dp"
+                    android:gravity="right|center_vertical"
+                    android:hint=" نام کاربری"
+                    android:fontFamily="@font/lalezar_font"/>
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".6"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/rounded_edittext">
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="1dp"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:background="@android:color/transparent"
+                    android:inputType="textPassword"
+                    android:textDirection="rtl"
+                    android:padding="1dp"
+                    android:gravity="right|center_vertical"
+                    android:hint="رمز عبور"
+                    android:fontFamily="@font/lalezar_font"/>
+            </FrameLayout>
+            <Button
+                android:id="@+id/login"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".5"
+                android:background="@drawable/rounded_button_login"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_20sdp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:fontFamily="@font/lalezar_font"
+                android:text="ورود"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+</FrameLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/addNewMajor" android:title="افزودن گرایش" android:icon="@drawable/ic_add" />
+    <item android:id="@+id/addDateRange" android:title="افزودن بازه زمانی" android:icon="@drawable/ic_access_time" />
+    <item android:id="@+id/addNewTerm" android:title="افزودن ترم جدید" android:icon="@drawable/ic_add" />
+    <item android:id="@+id/addTeacher" android:title="افزودن استاد" android:icon="@drawable/ic_person_add_black_24dp" />
+    <item android:id="@+id/addTmt" android:title="تعیین ظرفیت اساتید در هر ترم" android:icon="@drawable/ic_add" />
+    <item android:id="@+id/addStudent" android:title="افزودن دانشجو" android:icon="@drawable/ic_person_add_black_24dp"/>
+    <item android:id="@+id/selectTerm" android:title="لیست ترم" android:icon="@drawable/ic_list"/>
+    <item android:id="@+id/setting" android:title="تغیر رمز عبور" android:icon="@drawable/ic_lock" />
+</menu>

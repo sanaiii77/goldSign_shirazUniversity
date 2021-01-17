@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="Teacher.Main3Activity"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+    android:orientation="vertical"
+    android:weightSum="6.25">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"
+        android:layoutDirection="rtl">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="6"
+            android:orientation="horizontal"
+            android:layout_margin="2dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_arrow_back"/>
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="خروج"
+                android:textSize="@dimen/_15sdp"
+                android:fontFamily="@font/lalezar_font"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary" />
+
+    <FrameLayout
+        android:id="@+id/flContainerForTechear"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".75"
+        android:weightSum="3"
+        >
+        <LinearLayout
+            android:id="@+id/selectStudentByTechearButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="3"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FF0000FF" />
+
+            <ImageButton
+
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:background="@null"
+                android:layout_weight="2"
+                android:src="@drawable/ic_person_add_black_24dp"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="انتخاب"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/lalezar_font"
+                android:textSize="@dimen/_13sdp"
+                android:gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/showResultOfSelectionStudentByTeacherstButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="3"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#FF0000FF" />
+
+            <ImageButton
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:src="@drawable/ic_person_add_black_24dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text=" تقویم"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/lalezar_font"
+                android:textSize="@dimen/_13sdp"
+                android:gravity="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/changepasswordByTechearButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="3"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+            <ImageButton
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+
+                android:src="@drawable/ic_settings"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="تغییر رمز عبور"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/lalezar_font"
+                android:textSize="@dimen/_13sdp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

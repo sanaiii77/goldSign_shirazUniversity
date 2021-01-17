@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddTMT"
+    android:orientation="vertical"
+    android:weightSum="7">
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Spinner
+            android:layout_margin="5dp"
+            android:id="@+id/selectMajorForTMT"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:layout_margin="5dp"
+            android:textDirection="rtl"
+            android:text="ترم"
+            android:gravity="center"
+            android:textSize="@dimen/_15sdp"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:fontFamily="@font/lalezar_font"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollTMT"
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleTMT"
+            android:layout_weight="5.25"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight=".75">
+        <Button
+            android:id="@+id/saveTMT"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="افزودن"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold|italic"
+            android:layout_weight=".75"
+            android:background="@drawable/rounded_button_login"/>
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
