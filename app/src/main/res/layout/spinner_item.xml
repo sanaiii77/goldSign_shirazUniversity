@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:textSize="@dimen/_13sdp"
     android:gravity="center"
-    android:textColor="@color/colorPrimaryDark"
+    android:textColor="@color/colorPrimarybackup"
     android:fontFamily="@font/lalezar_font"
     android:padding="2dip"
     />

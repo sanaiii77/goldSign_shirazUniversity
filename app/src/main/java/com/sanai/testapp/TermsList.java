@@ -50,7 +50,10 @@ public class TermsList extends Fragment {
                         +"\n"+
                         "term pk : "+Django.MTList.get(position).getTerm_of_mt_PK()
                         +"\n" +"major pk : "+Django.MTList.get(position).getMajor_of_mt_PK(), Toast.LENGTH_LONG).show();*/
+
+                showSelectedItem(Django.MTList.get(position).getMtPK());
             }
+
 
             @Override
             public void onLongClick(View view, int position) {
@@ -64,11 +67,11 @@ public class TermsList extends Fragment {
 
 
 
-    public  void  showSelectedItem(String year){
+    public  void  showSelectedItem(int mtPK){
         Fragment newFragment = new ShowTerms();
 
         Bundle args = new Bundle();
-        args.putString("someInt", year);
+        args.putInt("someInt", mtPK);
         newFragment.setArguments(args);
         transaction = getFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,

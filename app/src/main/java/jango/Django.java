@@ -265,6 +265,75 @@ public class Django {
         return;
     }
 
+    //________________________________________________________________________________________
+
+    public static Major getMajor (int pk){
+        for (int i=0 ; i<Django.majorList.size();i++){
+            if(Django.majorList.get(i).getMajorPK() == pk){
+                return Django.majorList.get(i);
+            }
+        }
+        return null;
+
+    }
+    public static Term getTerm (int pk){
+        for (int i=0 ; i<Django.termList.size();i++){
+            if(Django.termList.get(i).getTermPK() == pk){
+                return Django.termList.get(i);
+            }
+        }
+        return null;
+
+    }
+    public static DatetimeRange getDateRange (int pk){
+        for (int i=0 ; i<Django.dateRangeList.size();i++){
+            if(Django.dateRangeList.get(i).getDateRangePK() == pk){
+                return Django.dateRangeList.get(i);
+            }
+        }
+        return null;
+
+    }
+    public static MT getMT (int pk){
+        for (int i=0 ; i<Django.MTList.size();i++){
+            if(Django.MTList.get(i).getMtPK() == pk){
+                return Django.MTList.get(i);
+            }
+        }
+        return null;
+
+    }
+    public static TMT getTMT (int pk){
+        for (int i=0 ; i<Django.TMTList.size();i++){
+            if(Django.TMTList.get(i).getTmtPK() == pk){
+                return Django.TMTList.get(i);
+            }
+        }
+        return null;
+
+    }
+    public static Student getStudent (int pk){
+        for (int i=0 ; i<Django.studentArrayList.size();i++){
+            if (Django.studentArrayList.get(i).getStudentPK() == pk){
+                return Django.studentArrayList.get(i);
+            }
+
+        }
+        return null;
+
+    }
+    public static Teacher getTeacher (int pk){
+        for (int i=0 ; i<Django.teacherArrayList.size();i++){
+            if (Django.teacherArrayList.get(i).getTeacherPK() == pk){
+                return Django.teacherArrayList.get(i);
+            }
+
+        }
+        return null;
+
+    }
+
+    //________________________________________________________________________________________
 
 
     public static void getToday(){

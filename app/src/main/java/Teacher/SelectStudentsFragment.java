@@ -116,9 +116,9 @@ public class SelectStudentsFragment extends Fragment {
 
         for ( int i=0 ; i<Main3Activity.teacher_active_TMT_but_notdone.size();i++){
             TMT tmt = Main3Activity.teacher_active_TMT_but_notdone.get(i);
-            MT mt = Main3Activity.getMT(tmt.getMt_of_tmt_PK());
-            Term term = Main3Activity.getTerm(mt.getTerm_of_mt_PK());
-            Major major = Main3Activity.getMAjor(mt.getMajor_of_mt_PK());
+            MT mt = Django.getMT(tmt.getMt_of_tmt_PK());
+            Term term = Django.getTerm(mt.getTerm_of_mt_PK());
+            Major major = Django.getMajor(mt.getMajor_of_mt_PK());
             spiinerData.add(term.getDate() +" \n" + major.getMajorTitle());
         }
 
@@ -133,7 +133,7 @@ public class SelectStudentsFragment extends Fragment {
         for(int i = 0; i < Django.goldReqList.size(); i++){
             if( Django.goldReqList.get(i).getTmt_teacher_of_goldreq_PK() == tmt.getMt_of_tmt_PK()){
                 //stdinTMT.add(Django.goldReqList.get(i));
-                std.add(Main3Activity.getStudent(Django.goldReqList.get(i).getStudent_of_goldreq_PK()));
+                std.add(Django.getStudent(Django.goldReqList.get(i).getStudent_of_goldreq_PK()));
 
             }
         }

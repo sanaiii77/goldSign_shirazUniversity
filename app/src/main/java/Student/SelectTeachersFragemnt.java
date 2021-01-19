@@ -286,7 +286,7 @@ public class SelectTeachersFragemnt extends Fragment {
     //***************************************************************************************
     public void getTeachersName(){
         for (int i=0 ; i< Django.teacherArrayList.size() ; i++){
-            teachersName.add(Django.teacherArrayList.get(i).getTeacherName());
+            teachersName.add(Django.teacherArrayList.get(i).getTeacherName()+"  " +Django.teacherArrayList.get(i).getTeacherFamilyName() );
         }
 
     }

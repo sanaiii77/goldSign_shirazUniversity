@@ -22,10 +22,7 @@ import static Teacher.Main3Activity.FINISH__TIME;
 import static Teacher.Main3Activity.NOT_START_TIME;
 import static Teacher.Main3Activity.STUDENT_Time;
 import static Teacher.Main3Activity.TEACHER_TIME;
-import static Teacher.Main3Activity.getDateRange;
-import static Teacher.Main3Activity.getMAjor;
-import static Teacher.Main3Activity.getMT;
-import static Teacher.Main3Activity.getTerm;
+
 import static Teacher.Main3Activity.teacher_total_TMT;
 
 
@@ -48,11 +45,11 @@ public class TMTCalListAdapter extends RecyclerView.Adapter<TMTCalListAdapter.My
     @Override
     public void onBindViewHolder(final MyTaskViewHolder viewHolder, final int position) {
         TMT tmt = Main3Activity.teacher_total_TMT.get(position);
-        MT mt = getMT(tmt.getMt_of_tmt_PK());
-        Term term = getTerm(mt.getTerm_of_mt_PK());
-        Major major = getMAjor(mt.getMajor_of_mt_PK());
-        DatetimeRange teacher_datetimeRange = getDateRange(term.getTeacher_date_range_PK());
-        DatetimeRange student_datetimeRange = getDateRange(term.getStudent_date_range_PK());
+        MT mt = Django.getMT(tmt.getMt_of_tmt_PK());
+        Term term = Django.getTerm(mt.getTerm_of_mt_PK());
+        Major major = Django.getMajor(mt.getMajor_of_mt_PK());
+        DatetimeRange teacher_datetimeRange = Django.getDateRange(term.getTeacher_date_range_PK());
+        DatetimeRange student_datetimeRange = Django.getDateRange(term.getStudent_date_range_PK());
         String time = CheckTime.checkTime(student_datetimeRange , teacher_datetimeRange);
         viewHolder.term.setText(term.getDate()+ "    " + major.getMajorTitle());
         viewHolder.stdtime.setText(student_datetimeRange.getStart() +" \n "+"تا"+" \n " +student_datetimeRange.getEnd());

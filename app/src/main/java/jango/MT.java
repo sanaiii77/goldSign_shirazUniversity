@@ -9,6 +9,16 @@ public class MT {
     int major_of_mt_PK;
     @SerializedName("term")
     int term_of_mt_PK;
+    @SerializedName("status")
+    boolean status_of_mt_bool;
+
+    public boolean isStatus_of_mt_bool() {
+        return status_of_mt_bool;
+    }
+
+    public void setStatus_of_mt_bool(boolean status_of_mt_bool) {
+        this.status_of_mt_bool = status_of_mt_bool;
+    }
 
     public int getMtPK() {
         return mtPK;

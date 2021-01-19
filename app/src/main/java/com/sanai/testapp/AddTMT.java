@@ -58,7 +58,7 @@ public class AddTMT extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_add_tmt, container, false);
-        Toast.makeText(getActivity(), "tmt start", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getActivity(), "tmt start", Toast.LENGTH_SHORT).show();
 
         mtSpinner = view.findViewById(R.id.selectMajorForTMT);
         saveTMT = view.findViewById(R.id.saveTMT);

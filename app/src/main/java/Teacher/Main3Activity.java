@@ -15,18 +15,12 @@ import jango.DatetimeRange;
 import jango.Django;
 import jango.GoldRequest;
 import jango.MT;
-import jango.Major;
 import jango.Student;
 import jango.TMT;
-import jango.Teacher;
 import jango.Term;
 import root.ChangePassword;
-
-import com.sanai.testapp.MainActivity;
 import com.sanai.testapp.R;
 import com.sanai.testapp.TmtCalenderForTeacherActivity;
-
-import Student.ResultFragmnet;
 import root.CheckTime;
 import root.LoginActivity;
 
@@ -69,7 +63,7 @@ public class Main3Activity extends AppCompatActivity {
         logOutTeacher = findViewById(R.id.logOutTeacher);
 
         //**************************************************************
-        Toast.makeText(getApplicationContext(), Django.today[0]+"-"+Django.today[1]+"-"+Django.today[2]+"-", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), Django.today[0]+"-"+Django.today[1]+"-"+Django.today[2]+"-", Toast.LENGTH_SHORT).show();
         getListOfTeacherInTmt();
         clickButton ();
 
@@ -80,7 +74,7 @@ public class Main3Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(teacher_active_TMT_but_notdone.size() ==0){
-                    Toast.makeText(getApplicationContext() , "انجام شده است." ,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext() , "فعال نیست" ,Toast.LENGTH_LONG).show();
                 }
                 else {
                     fragmentTransaction   =getSupportFragmentManager().beginTransaction();
@@ -143,10 +137,10 @@ public class Main3Activity extends AppCompatActivity {
 
         for (int i=0 ; i < teacher_total_TMT.size() ; i++){
             TMT tmt = teacher_total_TMT.get(i);
-            MT mt = getMT(tmt.getMt_of_tmt_PK());
-            Term term = getTerm(mt.getTerm_of_mt_PK());
-            DatetimeRange teacher_datetimeRange = getDateRange(term.getTeacher_date_range_PK());
-            DatetimeRange student_datetimeRange = getDateRange(term.getStudent_date_range_PK());
+            MT mt = Django.getMT(tmt.getMt_of_tmt_PK());
+            Term term = Django.getTerm(mt.getTerm_of_mt_PK());
+            DatetimeRange teacher_datetimeRange = Django.getDateRange(term.getTeacher_date_range_PK());
+            DatetimeRange student_datetimeRange = Django.getDateRange(term.getStudent_date_range_PK());
             String time = CheckTime.checkTime(student_datetimeRange , teacher_datetimeRange);
             if (time.matches(TEACHER_TIME)){
                 teacher_active_TMT.add(teacher_total_TMT.get(i));
@@ -177,52 +171,6 @@ public class Main3Activity extends AppCompatActivity {
             }
 
         }
-
-    }
-    public static MT getMT (int pk){
-        for (int i=0 ; i<Django.MTList.size();i++){
-            if(Django.MTList.get(i).getMtPK() == pk){
-                return Django.MTList.get(i);
-            }
-        }
-        return null;
-
-    }
-    public static Term getTerm (int pk){
-        for (int i=0 ; i<Django.termList.size();i++){
-            if(Django.termList.get(i).getTermPK() == pk){
-                return Django.termList.get(i);
-            }
-        }
-        return null;
-
-    }
-    public static Major getMAjor (int pk){
-        for (int i=0 ; i<Django.majorList.size();i++){
-            if(Django.majorList.get(i).getMajorPK() == pk){
-                return Django.majorList.get(i);
-            }
-        }
-        return null;
-
-    }
-    public static DatetimeRange getDateRange (int pk){
-        for (int i=0 ; i<Django.dateRangeList.size();i++){
-            if(Django.dateRangeList.get(i).getDateRangePK() == pk){
-                return Django.dateRangeList.get(i);
-            }
-        }
-        return null;
-
-    }
-    public static Student getStudent (int pk){
-        for (int i=0 ; i<Django.studentArrayList.size();i++){
-            if (Django.studentArrayList.get(i).getStudentPK() == pk){
-                return Django.studentArrayList.get(i);
-            }
-
-        }
-        return null;
 
     }
     //gold req hai k mle in mtt hstnd v prioritt=1 drn bar migrdone
@@ -258,7 +206,7 @@ public class Main3Activity extends AppCompatActivity {
         ArrayList<GoldRequest> goldRequestsOfTMT = getgoldRrqofTheTMT_withFirstChoice(tmt );
 
         for (int j=0 ; j<goldRequestsOfTMT.size() ; j++){
-            Student std = getStudent(goldRequestsOfTMT.get(j).getStudent_of_goldreq_PK());
+            Student std = Django.getStudent(goldRequestsOfTMT.get(j).getStudent_of_goldreq_PK());
             if(std.getSelected_tmt_PK() >0) {
                 //some onw get gold sign
                 return true; //done

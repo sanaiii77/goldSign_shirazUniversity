@@ -445,6 +445,7 @@ public class AddNewTerm extends Fragment {
                     public void onResponse(JSONObject response) {
                         Toast.makeText(getActivity(), "ترم افزوده شد.", Toast.LENGTH_LONG).show();
                         System.out.println(response);
+                        Django.getMTList();
                         goToDefaultFargment();
 
 
@@ -464,12 +465,14 @@ public class AddNewTerm extends Fragment {
     }
     public int checkIsNewMT(int term){
         int majorPK = -1 ;
+
         for(int i=0 ; i<Django.majorList.size();i++){
             if(majorSelected.matches(Django.majorList.get(i).getMajorTitle())){
                 majorPK = Django.majorList.get(i).getMajorPK();
             }
         }
         Toast.makeText(getActivity(), "pks "+term+" "+majorPK, Toast.LENGTH_SHORT).show();
+
         for (int i=0 ; i<Django.MTList.size() ;i++){
             if(Django.MTList.get(i).getMajor_of_mt_PK() == majorPK &&
             Django.MTList.get(i).getTerm_of_mt_PK() == term){

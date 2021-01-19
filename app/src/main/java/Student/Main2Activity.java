@@ -134,11 +134,11 @@ public class Main2Activity extends AppCompatActivity {
         for(int i=0 ; i<Django.MTList.size() ; i++){
             if(Django.MTList.get(i).getMtPK() == Django.appStudent.getEntrance_mt_PK()){
                 mt = Django.MTList.get(i);
-                major = getMajor(mt.getMajor_of_mt_PK());
-                term = getTerm(mt.getTerm_of_mt_PK());
+                major = Django.getMajor(mt.getMajor_of_mt_PK());
+                term = Django.getTerm(mt.getTerm_of_mt_PK());
 
-                student_date_range = getDateRange(term.getStudent_date_range_PK());
-                teacher_date_range = getDateRange(term.getTeacher_date_range_PK());
+                student_date_range = Django.getDateRange(term.getStudent_date_range_PK());
+                teacher_date_range = Django.getDateRange(term.getTeacher_date_range_PK());
                 /*Toast.makeText(this, "student start time : " + student_date_range.getStart() +
                         "\n"+ "student finish time : " + student_date_range.getEnd() , Toast.LENGTH_LONG).show();*/
 
@@ -154,34 +154,6 @@ public class Main2Activity extends AppCompatActivity {
         //__________________________________________________________________
         return;
     }
-    public  Major getMajor (int pk){
-        for (int i=0 ; i<Django.majorList.size();i++){
-            if(Django.majorList.get(i).getMajorPK() == pk){
-                return Django.majorList.get(i);
-            }
-        }
-        return null;
-
-    }
-    public  Term getTerm (int pk){
-        for (int i=0 ; i<Django.termList.size();i++){
-            if(Django.termList.get(i).getTermPK() == pk){
-                return Django.termList.get(i);
-            }
-        }
-        return null;
-
-    }
-    public  DatetimeRange getDateRange (int pk){
-        for (int i=0 ; i<Django.dateRangeList.size();i++){
-            if(Django.dateRangeList.get(i).getDateRangePK() == pk){
-                return Django.dateRangeList.get(i);
-            }
-        }
-        return null;
-
-    }
-
     public  String checkTime ( ){
         if (CompareTwoDatesTest.comparison( student_date_range.getStart(), CompareTwoDatesTest.convertTimeToString(Django.today[0],Django.today[1],Django.today[2])).matches("after")){
 
