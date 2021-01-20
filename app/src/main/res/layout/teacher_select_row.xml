@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layoutDirection="rtl"
+    android:weightSum="3">
+
+    <TextView
+        android:id="@+id/numInSelecTeacherRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/lalezar_font"
+        android:textSize="@dimen/_15sdp"
+        android:text="1"
+        android:gravity="center"
+        android:textColor="@color/colorPrimarybackup"/>
+    <TextView
+        android:id="@+id/TeacherRow"
+        android:layoutDirection="ltr"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:textColor="@color/colorPrimarybackup"
+        android:fontFamily="@font/lalezar_font"
+        android:textSize="@dimen/_13sdp"
+        android:layout_gravity="center"></TextView>
+
+
+</LinearLayout>

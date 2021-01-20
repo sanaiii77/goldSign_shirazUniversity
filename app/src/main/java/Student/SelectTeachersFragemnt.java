@@ -7,13 +7,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -24,6 +28,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.sanai.testapp.MySelectTeacherAdapter;
+import com.sanai.testapp.MyStudentRecycleviewAdapter;
 import com.sanai.testapp.R;
 import com.sanai.testapp.defaultFragment;
 
@@ -33,19 +39,31 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import jango.Django;
+import jango.GoldRequest;
 import jango.TMT;
+import jango.Teacher;
 
 
 public class SelectTeachersFragemnt extends Fragment {
 
-    ArrayList<String> teachersName = new ArrayList<>();
-    Spinner choice1 , choice2 ,choice3 , choice4, choice5 ;
+    static ArrayList<String> teachersName = new ArrayList<>();
+    static ArrayList<TMT> TMTArray = new ArrayList<>();
+    static ArrayList<Teacher> teachers = new ArrayList<>();// teacher of this mt
+    static int[] teachersPK_selected ;// teacher of this mt
+    static int[] tmtPK_selected ;// teacher of this mt
+    static String[] teachersName_selected ;// teacher of this mt
+    static  int len= 0;
+    int teacherPs;
+
     Button save , cancel ;
-    int[] teachersPK_selected = new int[5];
-    int[] tmt_to_goldsign = new int[5];
     FrameLayout notAvailable;
     LinearLayout isAvailable;
     TextView textView ;
+    RecyclerView recyclerView;
+
+    EditText priority ;
+    Spinner teachersSpiner;
+    ImageButton addPriority ;
 
     @Nullable
     @Override
@@ -53,81 +71,85 @@ public class SelectTeachersFragemnt extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_select_teachers_fragemnt,container,false);
 
-        choice1 = view.findViewById(R.id.selectTeacher1);
-        choice2 = view.findViewById(R.id.selectTeacher2);
-        choice3 = view.findViewById(R.id.selectTeacher3);
-        choice4 = view.findViewById(R.id.selectTeacher4);
-        choice5 = view.findViewById(R.id.selectTeacher5);
         save = view.findViewById(R.id.saveChoiceOfTeacher);
         cancel = view.findViewById(R.id.cancelChoiceOfTeacher);
         notAvailable = view.findViewById(R.id.selectionIsNotAvailable);
-        isAvailable =view.findViewById(R.id.teacherSelectionIsAvailable);
+        isAvailable = view.findViewById(R.id.isAvailable);
+
         textView = view.findViewById(R.id.textviewSelectionIsNotAvailable);
+        recyclerView  = view.findViewById(R.id.selectteacherRecycleview);
+        priority = view.findViewById(R.id.priorityOfSelection);
+        teachersSpiner = view.findViewById(R.id.teachersNameInSelection);
+        addPriority = view.findViewById(R.id.addPriority);
 
         /*_______________________________________________________________*/
-        if(doneOrNot()){
-            textView.setText(getStringofTeacherList());
+        getTeacherArrayOfMT();
+
+        if(doneSelection()){ //done
+            textView.setText(stringOfTeacher());
             notAvailable.setVisibility(View.VISIBLE);
             isAvailable.setVisibility(View.GONE);
 
 
-        }else {
+        }else { //not done
             notAvailable.setVisibility(View.GONE);
             isAvailable.setVisibility(View.VISIBLE);
-            setSpinner();
+
+            spinnerSelection();
             click();
-            selectOnSpinnerItem();
-
         }
-
 
         return  view;
     }
 
-    public String getStringofTeacherList(){
-        String[] tmp = new String[5];
-        for(int i=0 ; i<Django.goldReqList.size();i++){
-            if(Django.goldReqList.get(i).getStudent_of_goldreq_PK()==Django.ROLE_PK){ //done
-                int tmtPK = Django.goldReqList.get(i).getTmt_teacher_of_goldreq_PK() ;
-                Toast.makeText(getActivity(),"teacher name  "+getTeacherName(tmtPK),Toast.LENGTH_LONG).show();
-                tmp[Django.goldReqList.get(i).getPriority_of_goldreq_PK() - 1] = getTeacherName(tmtPK);
+
+    public  void getTeacherArrayOfMT (){
+        TMTArray = new ArrayList<>();
+        teachers = new ArrayList<>();
+        teachersName = new ArrayList<>();
+        for(int i=0 ; i <Django.TMTList.size() ;i++){
+            if(Django.TMTList.get(i).getMt_of_tmt_PK() == Main2Activity.mt.getMtPK()
+            && Django.TMTList.get(i).getCap() != 0){ //in this term and have cap
+
+                TMTArray.add(Django.TMTList.get(i));
+                teachers.add(Django.getTeacher(Django.TMTList.get(i).getTeacher_of_tmt_PK()));
             }
         }
-        String str = "شما اساتید خود را به صورت زیر ثبت کرده اید \n";
-
-        for (int i=0 ; i<tmp.length ;i++){
-            str += i +" " + tmp[i] + "\n" ;
+        len = teachers.size();
+        teachersPK_selected = new int[len];
+        teachersName_selected = new String[len];
+        tmtPK_selected = new  int[len];
+        for(int i=0 ; i<len ; i++){
+            teachersName_selected[i] = "";
+            teachersPK_selected[i] = -1;
+            tmtPK_selected[i] = -1;
 
         }
-
-        return str;
+        setRecycleView();
+        getteachersName();
+    }
+    public void  getteachersName(){
+        for(int i=0 ; i < teachers.size() ; i++){
+            teachersName.add(teachers.get(i).getTeacherName() + " "+ teachers.get(i).getTeacherFamilyName());
+        }
+        setSpinner();
 
     }
+    public  void setSpinner(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), R.layout.spinner_item, teachersName);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        teachersSpiner.setAdapter(adapter);
+    }
 
-    public String getTeacherName(int tmtPK){
-        int teacherPK =-1 ;
+    public void setRecycleView(){
 
-        for (int i=0 ; i<Django.TMTList.size() ; i++){
-            if(Django.TMTList.get(i).getTmtPK() == tmtPK){
-                teacherPK = Django.TMTList.get(i).getTeacher_of_tmt_PK();
-                break;
-            }
-        }
-        for (int i=0 ; i<Django.teacherArrayList.size() ; i++){
-            if(Django.teacherArrayList.get(i).getTeacherPK() == teacherPK){
-                 return Django.teacherArrayList.get(i).getTeacherName() +   Django.teacherArrayList.get(i).getTeacherFamilyName();
-            }
-        }
-
-
-
-
-        return  "";
-
+        MySelectTeacherAdapter myStudentRecycleviewAdapter = new MySelectTeacherAdapter(this,teachersName_selected);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity() );
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(myStudentRecycleviewAdapter);
     }
     //***************************************************************************************
-
-    public boolean doneOrNot(){
+    public boolean doneSelection(){
         for(int i=0 ; i<Django.goldReqList.size();i++){
             if(Django.goldReqList.get(i).getStudent_of_goldreq_PK()==Django.ROLE_PK){ //done
                 return  true;
@@ -135,37 +157,65 @@ public class SelectTeachersFragemnt extends Fragment {
         }
         return  false;
     }
+
     //***************************************************************************************
-    public  void  setSpinner(){
-        getTeachersName();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(),R.layout.spinner_item, teachersName);
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        choice1.setAdapter(adapter);
-        //****************************************************************************************************
-         adapter = new ArrayAdapter<String>(this.getActivity(),R.layout.spinner_item, teachersName);
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        choice2.setAdapter(adapter);
-        //****************************************************************************************************
-        adapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spinner_item, teachersName);
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        choice3.setAdapter(adapter);
-        //****************************************************************************************************
-        adapter = new ArrayAdapter<String>(this.getActivity(),R.layout.spinner_item, teachersName);
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        choice4.setAdapter(adapter);
-        //****************************************************************************************************
-        adapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spinner_item, teachersName);
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        choice5.setAdapter(adapter);
+    public String stringOfTeacher(){
+        String str= "";
+        String[] names = new String[len];
+
+        for(int i=0 ; i<Django.goldReqList.size();i++){
+            if(Django.goldReqList.get(i).getStudent_of_goldreq_PK()==Django.ROLE_PK){ //done
+                int pos = Django.goldReqList.get(i).getPriority_of_goldreq_PK();
+                int tmtPK = Django.goldReqList.get(i).getTmt_teacher_of_goldreq_PK();
+                TMT tmt = Django.getTMT(tmtPK);
+                Teacher teacher = Django.getTeacher(tmt.getTeacher_of_tmt_PK());
+                names[pos-1] = pos+"." +" " + teacher.getTeacherName() + " " + teacher.getTeacherFamilyName();
+            }
+        }
+        for (int i=0 ; i<len ; i++){
+            str+= names[i] + "\n";
+        }
+        return  str;
+
     }
     //***************************************************************************************
+
     public  void  click(){
+        addPriority.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int p = -1 ;
+                if(priority.getText().toString().matches("")){
+
+                }
+                else{
+                    p = Integer.parseInt(priority.getText().toString());
+                    priority.setText("");
+
+                }
+
+                if(p>0 & p <= len){
+                    int teacherPK = TMTArray.get(teacherPs).getTeacher_of_tmt_PK();
+                    String name = teachersName.get(teacherPs);
+                    teachersPK_selected[teacherPs] = teacherPK;
+                    tmtPK_selected[teacherPs] = TMTArray.get(teacherPs).getTmtPK();
+                    teachersName_selected[p-1] = name;
+                    setRecycleView();
+
+                }else{
+                    Toast.makeText(getActivity(), "الویت اشتباه است", Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        });
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectOnSpinnerItem();
-                getListOfTMT();
-                dialog();
+                boolean bool = checkSelection();
+                if(bool) {
+                    dialog();
+                }
 
             }
         });
@@ -180,94 +230,22 @@ public class SelectTeachersFragemnt extends Fragment {
         });
     }
     //***************************************************************************************
-    public  void selectOnSpinnerItem(){
-        choice1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+    public  void  spinnerSelection (){
+        teachersSpiner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int pos, long arg3) {
-                // TODO Auto-generated method stub
-                teachersPK_selected[0] = Django.teacherArrayList.get(pos).getTeacherPK();
+                teacherPs =pos;
 
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
 
             }
         });
-        //******************************************************************************************
-        choice2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int pos, long arg3) {
-                // TODO Auto-generated method stub
-
-                teachersPK_selected[1] = Django.teacherArrayList.get(pos).getTeacherPK();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-        //******************************************************************************************
-        choice3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int pos, long arg3) {
-                // TODO Auto-generated method stub
-                teachersPK_selected[2] = Django.teacherArrayList.get(pos).getTeacherPK();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-        //******************************************************************************************
-        choice4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int pos, long arg3) {
-                // TODO Auto-generated method stub
-
-                teachersPK_selected[3] = Django.teacherArrayList.get(pos).getTeacherPK();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-        //******************************************************************************************
-        choice5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> arg0, View arg1,
-                                       int pos, long arg3) {
-                // TODO Auto-generated method stub
-                teachersPK_selected[4] = Django.teacherArrayList.get(pos).getTeacherPK();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-        //******************************************************************************************
     }
     //***************************************************************************************
     public  void  goToDefaultFragment(){
@@ -284,30 +262,28 @@ public class SelectTeachersFragemnt extends Fragment {
 
     }
     //***************************************************************************************
-    public void getTeachersName(){
-        for (int i=0 ; i< Django.teacherArrayList.size() ; i++){
-            teachersName.add(Django.teacherArrayList.get(i).getTeacherName()+"  " +Django.teacherArrayList.get(i).getTeacherFamilyName() );
-        }
+    public  boolean  checkSelection(){
+        for (int i=0 ; i<len ; i++){
+            if(tmtPK_selected[i] == -1){
+                Toast.makeText(getActivity(), "انتخاب استاد کامل نیست", Toast.LENGTH_SHORT).show();
+                return false;}
+        } // blank check
 
-    }
-    //***************************************************************************************
-    public int getTMTPK(int teacherpk){
-        int mtPk = Main2Activity.mt.getMtPK();
+        for (int i=0 ; i<teachersPK_selected.length ; i++){
+            for (int j=i+1 ; j<teachersPK_selected.length ; j++){
+                if(teachersPK_selected[i] == teachersPK_selected[j]){
+                    Toast.makeText(getActivity(), "انتخاب استاد تکراری مجاز نیست", Toast.LENGTH_SHORT).show();
+                    return false;
 
-        for (int i=0 ; i< Django.TMTList.size() ; i++){
-            if(Django.TMTList.get(i).getMt_of_tmt_PK() == mtPk && Django.TMTList.get(i).getTeacher_of_tmt_PK() ==teacherpk){
-                return Django.TMTList.get(i).getTmtPK();
+                }
+
             }
-        }
-        return  -1;
+        } // repitietion cheked
 
+
+        return  true;
     }
     //***************************************************************************************
-    public void getListOfTMT(){
-        for(int i =0 ; i<5 ;i++){
-            tmt_to_goldsign[i] = getTMTPK(teachersPK_selected[i]);
-        }
-    }
     //***************************************************************************************
     public void insertGoldReq(int tmtPK , int priority ,final Context context){ //Django.Role_pk = student pk
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
@@ -356,10 +332,11 @@ public class SelectTeachersFragemnt extends Fragment {
 
             public void onClick(DialogInterface dialog, int which) {
 
-                for(int i=0 , j=1 ; i<5 ;i++ , j++){
-                    //Toast.makeText(getActivity(), tmt_to_goldsign[i]+" "+j+" "+Django.ROLE_PK, Toast.LENGTH_LONG).show();
-                    insertGoldReq(tmt_to_goldsign[i],j,getActivity());
+                for (int i=0 ; i<len ; i++){
+                    insertGoldReq(tmtPK_selected[i],i+1,getActivity());
                 }
+                Django.getGoldreqListFromJango();
+                goToDefaultFragment();
                 dialog.dismiss();
             }
         });
