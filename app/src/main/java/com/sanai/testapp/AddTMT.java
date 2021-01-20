@@ -172,7 +172,7 @@ public class AddTMT extends Fragment {
     }
     public void  dialog (){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("افزودن استاد");
+        builder.setTitle("افزودن ظرفیت");
         builder.setMessage("آیا از صحت اطلاعات اطمینان دارین ؟");
 
         builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {

@@ -29,6 +29,7 @@ import jango.Django;
 
 public class ChangePassword extends Fragment {
 
+
     EditText password ,reEnterPassword;
     Button cancele , save ;
 
@@ -139,9 +140,18 @@ public class ChangePassword extends Fragment {
 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack
-        transaction.replace(R.id.flcontent, newFragment);
-        transaction.addToBackStack(null);
+        if(Django.USER_ROLE.matches(Django.STUDENT_STRING)){
+            transaction.replace(R.id.flContainerForStudent, newFragment);
 
+        } else if (Django.USER_ROLE.matches(Django.TEACHER_STRING)) {
+            transaction.replace(R.id.flContainerForTechear, newFragment);
+
+        }
+        else {
+            transaction.replace(R.id.flcontent, newFragment);
+
+        }
+        transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();
 

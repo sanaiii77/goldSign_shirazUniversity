@@ -46,8 +46,6 @@ public class ShowTerms extends Fragment {
     ArrayList<TMT> tmtListOfTerm = new ArrayList<>() ;
     ArrayList<Student> stdListOfTerm = new ArrayList<>() ;
 
-    List<String> std = new ArrayList<String>();
-    List<String> teacher = new ArrayList<String>();
 
 
 
@@ -59,8 +57,6 @@ public class ShowTerms extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_show_terms,container,false);
         mtpk = getArguments().getInt("someInt");
-        Toast.makeText(getActivity(), mtpk+"", Toast.LENGTH_LONG).show();
-
 
         //****************************find*********************************
         termText = view.findViewById(R.id.termInShowTerm);

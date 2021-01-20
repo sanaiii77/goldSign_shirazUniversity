@@ -1,9 +1,11 @@
 package com.sanai.testapp;
 
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +53,7 @@ public class AddMajorFragment extends Fragment {
         majorsSpinner = view.findViewById(R.id.listOfMajor);
         //___________________________________________________________________________________
         getMajorListSetSpinner();
+        Django.getMajorList();
         add();
 
         return view;
@@ -60,14 +63,22 @@ public class AddMajorFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 newMajor = majorName.getText().toString();
-                boolean bool = isNewMajor(newMajor);
-                if (bool== true){
-                    insertMajor(newMajor);
-
-                }else {
-                    Toast.makeText(getActivity(),"گرایش موجود است",Toast.LENGTH_LONG).show();
+                if(newMajor.matches("")){
+                    Toast.makeText(getActivity(),"نام گرایش خالی است",Toast.LENGTH_LONG).show();
 
                 }
+                else {
+                    boolean bool = isNewMajor(newMajor);
+                    if (bool== true){
+                        dialog(newMajor);
+
+                    }else {
+                        Toast.makeText(getActivity(),"گرایش موجود است",Toast.LENGTH_LONG).show();
+
+                    }
+
+                }
+
 
             }
         });
@@ -104,9 +115,7 @@ public class AddMajorFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(getActivity(), "گرایش افزوده شد", Toast.LENGTH_LONG).show();
-                        //udate user & teacher list for next oprations
-                        getMajorListSetSpinner();
-                        goToDefaultFargment();
+
 
 
                     }
@@ -121,35 +130,16 @@ public class AddMajorFragment extends Fragment {
         requestQueue.add(jsonObjectRequest);
 
 
+
+
+
     }
     public  void  getMajorListSetSpinner(){
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Django.URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-        Call<List<Major>> call = jsonPlaceHolderApi.getMajor();
-        call.enqueue(new Callback<List<Major>>() {
-            @Override
-            public void onResponse(Call<List<Major>> call, retrofit2.Response<List<Major>> response) {
-                //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-                Django.majorList = response.body() ;
-                majors = new ArrayList<>();
-                for (int i=0 ; i<Django.majorList.size();i++){
-                    majors.add(Django.majorList.get(i).getMajorTitle());
-                }
-                setSpinner();
-
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Major>> call, Throwable t) {
-                // Toast.makeText(LoginActivity.this, "خطا در برقراری ارتباط", Toast.LENGTH_SHORT).show();
-
-            }
-        });
+        majors = new ArrayList<>();
+        for (int i=0 ; i<Django.majorList.size();i++){
+            majors.add(Django.majorList.get(i).getMajorTitle());
+        }
+        setSpinner();
         return;
 
     }
@@ -168,6 +158,38 @@ public class AddMajorFragment extends Fragment {
         transaction.commit();
 
     }
+
+    public void  dialog (final String newMajor ){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+
+        builder.setTitle("افزودن گرایش : "+newMajor);
+        builder.setMessage("آیا از صحت اطلاعات اطمینان دارین ؟");
+
+        builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                insertMajor(newMajor);
+                majorName.setText("");
+                goToDefaultFargment();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("خیر", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 
 
 }

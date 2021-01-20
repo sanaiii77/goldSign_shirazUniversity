@@ -133,8 +133,8 @@ public class AddStudent extends Fragment {
     public  void setSpinner (){
         ArrayList<String> mtStringList = new ArrayList<>();
         for(int i=0 ; i< Django.MTList.size();i++){
-            mtStringList.add(getMajorName(Django.MTList.get(i).getMajor_of_mt_PK()) + "\n" +
-                    getTerm(Django.MTList.get(i).getTerm_of_mt_PK()));
+            mtStringList.add(getTerm(Django.MTList.get(i).getTerm_of_mt_PK()) + "    " +getMajorName(Django.MTList.get(i).getMajor_of_mt_PK())
+                    );
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), R.layout.spinner_item, mtStringList);
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);

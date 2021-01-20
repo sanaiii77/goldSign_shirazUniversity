@@ -29,8 +29,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import jango.DatetimeRange;
 import jango.Django;
+import jango.Teacher;
 import jango.Term;
+import root.CompareTwoDatesTest;
 import root.converter;
 
 
@@ -171,21 +175,30 @@ public class AddNewTerm extends Fragment {
         addTerm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                termPK = checkIsNewTerm();
-                if(termPK == -1){
-                    // its new
-                    dialog1();
+                DatetimeRange std = Django.getDateRange(getDateRangePK(StimeSelected));
+                DatetimeRange teach = Django.getDateRange(getDateRangePK(TtimeSelected));
+                String when = CompareTwoDatesTest.comparison(std.getEnd(),teach.getStart());//std before teacher start
+                if(when.matches("before")){
+                    termPK = checkIsNewTerm();
+                    if(termPK == -1){
+                        // its new
+                        dialog1();
+                    }
+                    else {
+                        dialog2();
+                    }
                 }
                 else {
-                    dialog2();
+                    Toast.makeText(getActivity(), "بازه زمانی اساتید باید بعد از دانشجویان باشد", Toast.LENGTH_SHORT).show();
                 }
+
 
             }
         });
     }
     public int checkIsNewTerm() {
 
-        term.setDate(convertTimeToString(yearSelected,monthSelected,daySelected));
+        term.setDate(CompareTwoDatesTest.convertTimeToString(yearSelected,monthSelected,daySelected));
         term.setStudent_date_range_PK(getDateRangePK(StimeSelected));
         term.setTeacher_date_range_PK(getDateRangePK(TtimeSelected));
 
@@ -199,25 +212,6 @@ public class AddNewTerm extends Fragment {
 
         }
         return  -1;
-
-    }
-    public String convertTimeToString(int y, int m, int d) {
-        String time = "";
-        time += y + "-";
-
-        if (m > 0 && m < 10) {
-            time += "0" + m + "-";
-        } else {
-            time += m;
-        }
-        if (d > 0 && d < 10) {
-            time += "0" + d;
-        } else {
-            time += d;
-        }
-
-        return time;
-
 
     }
     public void clickOnItemOfSpinners() {
@@ -328,7 +322,7 @@ public class AddNewTerm extends Fragment {
     }
     public void  dialog1 (){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("افزودن استاد");
+        builder.setTitle("افزودن ترم");
         builder.setMessage("آیا از صحت اطلاعات اطمینان دارین ؟");
 
         builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
@@ -354,7 +348,7 @@ public class AddNewTerm extends Fragment {
     }
     public void  dialog2 (){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("افزودن استاد");
+        builder.setTitle("افزودن ترم");
         builder.setMessage("آیا از صحت اطلاعات اطمینان دارین ؟");
 
         builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
@@ -367,7 +361,7 @@ public class AddNewTerm extends Fragment {
 
                 }
                 else {
-                    Toast.makeText(getActivity(), "term exist", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "ترم تکراری است", Toast.LENGTH_LONG).show();
                 }                dialog.dismiss();
             }
         });
@@ -443,7 +437,7 @@ public class AddNewTerm extends Fragment {
                 new JsonObjectRequest(Request.Method.POST, Django.URL+"mt/create/", postData, new com.android.volley.Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(getActivity(), "ترم افزوده شد.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "ترم افزوده شد", Toast.LENGTH_LONG).show();
                         System.out.println(response);
                         Django.getMTList();
                         goToDefaultFargment();

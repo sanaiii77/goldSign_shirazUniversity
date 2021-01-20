@@ -186,6 +186,7 @@ public class Main2Activity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(),"studentActive" , Toast.LENGTH_LONG).show();
             return STUDENT_Time;
         }
+
         //________________
         //______________________________________________________________________________________________
         if (CompareTwoDatesTest.comparison( teacher_date_range.getStart(), CompareTwoDatesTest.convertTimeToString(Django.today[0],Django.today[1],Django.today[2])).matches("equal")
@@ -194,6 +195,7 @@ public class Main2Activity extends AppCompatActivity {
             return TEACHER_TIME;
 
         }
+
         else if (CompareTwoDatesTest.comparison( teacher_date_range.getStart(), CompareTwoDatesTest.convertTimeToString(Django.today[0],Django.today[1],Django.today[2])).matches("before")
                 && CompareTwoDatesTest.comparison( teacher_date_range.getEnd(), CompareTwoDatesTest.convertTimeToString(Django.today[0],Django.today[1],Django.today[2])).matches("after") ){
             //Toast.makeText(getApplicationContext(),"teacherActive" , Toast.LENGTH_LONG).show();

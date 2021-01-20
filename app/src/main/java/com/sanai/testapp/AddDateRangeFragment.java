@@ -29,6 +29,7 @@ import java.util.Calendar;
 
 import jango.DatetimeRange;
 import jango.Django;
+import root.CompareTwoDatesTest;
 import root.converter;
 
 public class AddDateRangeFragment extends Fragment {
@@ -106,7 +107,6 @@ public class AddDateRangeFragment extends Fragment {
         finishStudent3.setAdapter(adapter);
 
     }
-
     public  void clickOnItemOfSpinners(){
 
         startStudent1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -200,7 +200,6 @@ public class AddDateRangeFragment extends Fragment {
         //###################################################################################
 
     }
-
     public  void fillListOfSpinner (){
 
         for(int i=0; i<31 ; i++){
@@ -230,31 +229,39 @@ public class AddDateRangeFragment extends Fragment {
 
 
     }
-
     public  void  save (){
         Django.getDateRangeTimeList();
         addNewDateRange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startTime = convertTimeToString(startTimeForStudent[0],startTimeForStudent[1],startTimeForStudent[2]);
-                endTime = convertTimeToString(finishTimeForStudent[0],finishTimeForStudent[1],finishTimeForStudent[2]);
+                startTime = CompareTwoDatesTest.convertTimeToString(startTimeForStudent[0],startTimeForStudent[1],startTimeForStudent[2]);
+                endTime = CompareTwoDatesTest.convertTimeToString(finishTimeForStudent[0],finishTimeForStudent[1],finishTimeForStudent[2]);
                 DatetimeRange datetimeRange = new DatetimeRange();
                 datetimeRange.setStart(startTime);
                 datetimeRange.setEnd(endTime);
-                boolean  bool = isNewTime(datetimeRange);
-                if (bool){
-                    dialog(startTime , endTime);
+                String when = CompareTwoDatesTest.comparison(startTime,endTime);
+                if(when.matches("before") || when.matches("equal")){
+                    boolean  bool = isNewTime(datetimeRange);
+                    if (bool){
+
+                        dialog(startTime , endTime);
+                    }
+                    else {
+                        Toast.makeText(getActivity(), "بازه زمانی تکراری است", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else {
-                    Toast.makeText(getActivity(), "date range exist", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "زمان پایان نمیتواند قبل از زمان شروع باشد  ", Toast.LENGTH_LONG).show();
+
+
                 }
+
             }
         });
 
 
     }
     public  boolean isNewTime(DatetimeRange datetimeRange){
-        Toast.makeText(getActivity(), "size "+datetimeRange.getStart()+" "+datetimeRange.getEnd(), Toast.LENGTH_SHORT).show();
 
         for (int i=0 ; i<Django.dateRangeList.size() ; i++){
             if(Django.dateRangeList.get(i).getStart().matches(datetimeRange.getStart()) &&
@@ -265,12 +272,11 @@ public class AddDateRangeFragment extends Fragment {
         return  true;
 
     }
-
     public void  dialog (final String startTime , final String endTime){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 
-        builder.setTitle("افزودن استاد");
+        builder.setTitle( "افزودن بازه زمانی");
         builder.setMessage("آیا از صحت اطلاعات اطمینان دارین ؟");
 
         builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
@@ -295,7 +301,6 @@ public class AddDateRangeFragment extends Fragment {
         AlertDialog alert = builder.create();
         alert.show();
     }
-
     public void insertDateRange(String start , String end , final Context context){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
@@ -312,7 +317,7 @@ public class AddDateRangeFragment extends Fragment {
                 new JsonObjectRequest(Request.Method.POST, Django.URL+"date-range/create/", postData, new com.android.volley.Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(getActivity(), response.toString()+"", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getActivity(), response.toString()+"", Toast.LENGTH_LONG).show();
                         System.out.println(response);
                         Django.getDateRangeTimeList();
 
@@ -330,7 +335,6 @@ public class AddDateRangeFragment extends Fragment {
 
 
     }
-
     public void  goToDefaultFargment(){
 
 
@@ -344,27 +348,6 @@ public class AddDateRangeFragment extends Fragment {
 
         // Commit the transaction
         transaction.commit();
-
-    }
-    public String  convertTimeToString (int y , int m , int d){
-        String time = "" ;
-        time += y +"-";
-
-        if(m >0 && m<10){
-            time += "0"+m+"-";
-        }
-        else {
-            time+=m+"-";
-        }
-        if(d >0 && d<10){
-            time += "0"+d;
-        }
-        else {
-            time+=d;
-        }
-
-        return time;
-
 
     }
 

@@ -46,10 +46,7 @@ public class TermsList extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-              /*  Toast.makeText(getActivity(), "mt pk : "+Django.MTList.get(position).getMtPK()
-                        +"\n"+
-                        "term pk : "+Django.MTList.get(position).getTerm_of_mt_PK()
-                        +"\n" +"major pk : "+Django.MTList.get(position).getMajor_of_mt_PK(), Toast.LENGTH_LONG).show();*/
+
 
                 showSelectedItem(Django.MTList.get(position).getMtPK());
             }
