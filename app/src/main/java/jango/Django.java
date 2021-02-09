@@ -46,6 +46,7 @@ public class Django {
     //_______________________________________________________________________
 
     public static void getUserListFromJango(){
+        Django.userArrayList = new ArrayList<>();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
@@ -72,6 +73,8 @@ public class Django {
         return;
     }
     public static void getTeachersListFromJango(){
+        Django.teacherArrayList = new ArrayList<>();
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
@@ -94,6 +97,8 @@ public class Django {
 
     }
     public static void getDateRangeTimeList(){
+        Django.dateRangeList = new ArrayList<>();
+
 
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
@@ -117,6 +122,8 @@ public class Django {
 
     }
     public static void getMajorList(){
+        Django.majorList = new ArrayList<>();
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Django.URL)
@@ -142,6 +149,7 @@ public class Django {
 
     }
     public static void getTermList(){
+        Django.termList = new ArrayList<>();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Django.URL)
@@ -167,6 +175,7 @@ public class Django {
 
     }
     public static void getMTList(){
+        Django.MTList = new ArrayList<>();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Django.URL)
@@ -192,6 +201,7 @@ public class Django {
 
     }
     public static void getTMTList(){
+        Django.TMTList = new ArrayList<>();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Django.URL)
@@ -217,6 +227,7 @@ public class Django {
 
     }
     public static void getStudentListFromJango(){
+        Django.studentArrayList = new ArrayList<>();
 
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -243,6 +254,8 @@ public class Django {
         return;
     }
     public static void getGoldreqListFromJango(){
+        Django.goldReqList = new ArrayList<>();
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URL)
@@ -264,6 +277,14 @@ public class Django {
         });
         return;
     }
+    public static void updateList(){
+
+        getGoldreqListFromJango();
+        getTMTList();
+        getMTList();
+
+    }
+
 
     //________________________________________________________________________________________
 

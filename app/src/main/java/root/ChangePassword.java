@@ -64,23 +64,30 @@ public class ChangePassword extends Fragment {
                 repasswordText = reEnterPassword.getText().toString();
 
                 if(passwordText.matches("") || repasswordText.matches("")){
-                    Toast.makeText(getActivity(), "empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "رمز عبور خالی است", Toast.LENGTH_SHORT).show();
 
                 }else {
                     if (passwordText.equals(repasswordText)) {
                         //backend do change pass
-                        changePass(passwordText);
-                        Toast.makeText(getActivity(), "password changed", Toast.LENGTH_SHORT).show();
+                        if(passwordText.length() >=8){
+                            changePass(passwordText);
+                            goToDefaultFargment();
+                        }else {
+                            Toast.makeText(getActivity(), "رمز عبور باید شامل حداقل 8 کاراکتر باشد", Toast.LENGTH_SHORT).show();
+
+
+                        }
+
+
 
 
                     } else {
 
                         password.setText("");
                         reEnterPassword.setText("");
-                        Toast.makeText(getActivity(), "doenst match", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "رمز عبور مطابقت ندارد", Toast.LENGTH_SHORT).show();
                     }
 
-                    goToDefaultFargment();
                 }
 
             }
@@ -92,7 +99,7 @@ public class ChangePassword extends Fragment {
     public  void changePass(String newPassword){
 
         try {
-            String URL =  "http://192.168.1.105:8000/api/user/"+ Django.USER_PK +"/";
+            String URL =  Django.URL+"user/"+ Django.USER_PK +"/";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("password", newPassword);
 
@@ -100,7 +107,7 @@ public class ChangePassword extends Fragment {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    Toast.makeText(getActivity(), "Response:  " + response.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "رمز عبور تغییر کرد", Toast.LENGTH_SHORT).show();
                 }
             }, new Response.ErrorListener() {
                 @Override

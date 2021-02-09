@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.sanai.testapp.R;
+import com.sanai.testapp.TmtCalenderForTeacherActivity;
 import com.sanai.testapp.defaultFragment;
 
 import org.json.JSONException;
@@ -33,7 +34,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import jango.Django;
-import jango.GoldRequest;
 import jango.MT;
 import jango.Major;
 import jango.Student;
@@ -49,11 +49,12 @@ public class SelectStudentsFragment extends Fragment {
     ArrayList<String> spiinerData ;
     ArrayList<String> students ;
     ArrayList<Student> studentList ;
+    ArrayList<Student> studentist_withFirstChoice ;
     int spinnerPosition;
     static TMT tmt ;
     static  Student selected_std;
+    static  String selected_std_name;
 
-    String url ="http://192.168.1.105:8000/api/";
 
 
     @Nullable
@@ -80,7 +81,12 @@ public class SelectStudentsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                  selected_std = studentList.get(position);
-                 dialog();
+                 selected_std_name = students.get(position);
+                 boolean b = hasFirstChoiceOrNot(selected_std);
+                 dialog(b);
+
+
+
             }
         });
     }
@@ -92,12 +98,13 @@ public class SelectStudentsFragment extends Fragment {
                                        int pos, long arg3) {
                 spinnerPosition = pos;
                 textView.setText(spiinerData.get(pos));
-                studentList = getStudents(Main3Activity.teacher_active_TMT_but_notdone.get(pos));
-                students = getStudentsStringArray(studentList);
                 tmt = Main3Activity.teacher_active_TMT_but_notdone.get(pos);
+                studentList = getStudents(tmt);
+                studentist_withFirstChoice = getStudents_withFirstChoice(tmt);
+                students = getStudentsStringArray(studentList);
 
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,students);
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item,students);
                 adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
                 listOfTermsStudent.setAdapter(adapter);
 
@@ -127,16 +134,32 @@ public class SelectStudentsFragment extends Fragment {
         activeTermForSelectGoldSign.setAdapter(adapter);
     }
     public static ArrayList<Student> getStudents(TMT tmt){
-        //ArrayList<GoldRequest> stdinTMT = new ArrayList<>();
         ArrayList<Student> std = new ArrayList<>();
         //get All Std in the mt of  TMt
         for(int i = 0; i < Django.goldReqList.size(); i++){
-            if( Django.goldReqList.get(i).getTmt_teacher_of_goldreq_PK() == tmt.getMt_of_tmt_PK()){
+            if( Django.goldReqList.get(i).getTmt_teacher_of_goldreq_PK() == tmt.getTmtPK()){
                 //stdinTMT.add(Django.goldReqList.get(i));
                 std.add(Django.getStudent(Django.goldReqList.get(i).getStudent_of_goldreq_PK()));
 
             }
         }
+        return  std;
+
+
+    }
+    public  ArrayList<Student> getStudents_withFirstChoice(TMT tmt){
+        ArrayList<Student> std = new ArrayList<>();
+        //get All Std in the mt of  TMt
+
+        for(int i = 0; i < Django.goldReqList.size(); i++){
+            if( Django.goldReqList.get(i).getTmt_teacher_of_goldreq_PK() == tmt.getTmtPK()){
+                if(Django.goldReqList.get(i).getPriority_of_goldreq_PK() == 1) {
+                    std.add(Django.getStudent(Django.goldReqList.get(i).getStudent_of_goldreq_PK()));
+                }
+
+            }
+        }
+
         return  std;
 
 
@@ -147,9 +170,10 @@ public class SelectStudentsFragment extends Fragment {
         //get All Std in the mt of  TMt
         for(int i = 0; i < std.size(); i++){
                 //stdinTMT.add(Django.goldReqList.get(i));
-                students.add("نمره : "+std.get(i).getGrade()+ "\n"+
-                                std.get(i).getStudentName() + " " + std.get(i).getStudentFamilyname()
-                        );
+                students.add(  std.get(i).getStudentName() + " " + std.get(i).getStudentFamilyname()+"\n"+
+                        "نمره : "+std.get(i).getGrade()
+
+                );
 
         }
         return  students;
@@ -160,31 +184,44 @@ public class SelectStudentsFragment extends Fragment {
         Fragment newFragment = new defaultFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
+
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack
-        transaction.replace(R.id.flContainerForTechear, newFragment);
+        /*transaction.replace(R.id.flContainerForTechear, newFragment);
         transaction.addToBackStack(null);
 
+
         // Commit the transaction
+        transaction.commit();*/
+
+        transaction.replace(R.id.flContainerForTechear,new TmtCalenderForTeacherActivity());
         transaction.commit();
 
     }
-    public  void  dialog (){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    public  void  dialog (final boolean b){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle("افزودن دانشجو");
-        builder.setMessage("آیا از صحت اطلاعات اطمینان دارین ؟");
+        builder.setTitle("امضای طلایی ");
+        builder.setMessage("دانشجوی انتخابی شما: "+selected_std_name+"\n"+"آیا از انتخاب این دانشجو اطمینان دارین ؟");
 
         builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
                 // Do nothing but close the dialog
                 // add this student to backend
-                update_tmt_teacher(tmt , selected_std);
-                Django.getStudentListFromJango();
-                Main3Activity.getListOfTeacherInTmt();
+                if(b){
+                    update_tmt_teacher(tmt , selected_std);
+                    //update  tmt sts
+                    update_tmt_sts(tmt);
+                    Django.getStudentListFromJango();
+                    Django.getTMTList();
+                    Main3Activity.getListOfTeacherInTmt();
+
+
+                }
                 goToDefaultFragment();
                 dialog.dismiss();
+
             }
         });
 
@@ -204,7 +241,7 @@ public class SelectStudentsFragment extends Fragment {
     public void update_tmt_teacher(TMT tmt , Student std){
 
         try {
-            String URL =  url+"student/" + std.getStudentPK()+"/";
+            String URL =  Django.URL+"student/" + std.getStudentPK()+"/";
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("selected_tmt", tmt.getTmtPK());
 
@@ -212,7 +249,6 @@ public class SelectStudentsFragment extends Fragment {
                 @Override
                 public void onResponse(JSONObject response) {
 
-                    //Toast.makeText(getActivity(), "Response:  " + response.toString(), Toast.LENGTH_SHORT).show();
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -230,6 +266,46 @@ public class SelectStudentsFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+    public void update_tmt_sts(TMT tmt){
+
+        try {
+            String URL =  Django.URL+"tmt/" + tmt.getTmtPK()+"/";
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("sts", true);
+
+            JsonObjectRequest jsonOblect = new JsonObjectRequest(Request.Method.PATCH, URL, jsonBody, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+
+                }
+            }) {
+
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            requestQueue.add(jsonOblect);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public  boolean hasFirstChoiceOrNot(Student s){
+
+        for (int i=0 ; i<studentist_withFirstChoice.size() ; i++){
+            if(s.getStudentPK() == studentist_withFirstChoice.get(i).getStudentPK()){
+                return true;
+            }
+        }
+        return  false;
 
     }
 

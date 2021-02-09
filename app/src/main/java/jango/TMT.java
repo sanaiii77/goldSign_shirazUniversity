@@ -13,6 +13,17 @@ public class TMT {
     @SerializedName("cap")
     int cap;
 
+    @SerializedName("sts")
+    Boolean sts;
+
+    public Boolean getSts() {
+        return sts;
+    }
+
+    public void setSts(Boolean sts) {
+        this.sts = sts;
+    }
+
     public int getTmtPK() {
         return tmtPK;
     }

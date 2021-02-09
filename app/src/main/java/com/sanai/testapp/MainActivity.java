@@ -56,10 +56,6 @@ public class MainActivity extends AppCompatActivity {
         setupDrawerContent(nvDrawer);
         //*******************************************************
 
-
-       // getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        //getSupportActionBar().setDisplayShowHomeEnabled(false);
-
         //****************************date*********************************
 
 
@@ -68,13 +64,13 @@ public class MainActivity extends AppCompatActivity {
         int day = cal.get(Calendar.DAY_OF_MONTH);
         today_persion = converter.gregorian_to_jalali(year,month,day);
 
-        Bar.setVisibility(View.VISIBLE);
 
         //**************************************************************************
         runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
+
                 Django.getUserListFromJango();
                 Django.getStudentListFromJango();
                 Django.getTeachersListFromJango();
@@ -83,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 Django.getMajorList();
                 Django.getMTList();
                 Django.getTMTList();
-                Bar.setVisibility(View.GONE);
             }
 
         });

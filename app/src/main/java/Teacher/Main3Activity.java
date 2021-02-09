@@ -39,13 +39,13 @@ public class Main3Activity extends AppCompatActivity {
     FragmentTransaction fragmentTransaction;
     ImageButton logOutTeacher ;
     //*************************************************************
-    public static ArrayList<TMT> teacher_active_TMT = new ArrayList<>();
-    public static ArrayList<TMT> teacher_active_TMT_but_notdone = new ArrayList<>();
-    public static ArrayList<TMT> teacher_active_TMT_but_done = new ArrayList<>();
-    public static ArrayList<TMT> teacher_finish_TMT = new ArrayList<>();
-    public static ArrayList<TMT> teacher_notstart_TMT = new ArrayList<>();
-    public static ArrayList<TMT> teacher_stdToteach_TMT = new ArrayList<>();
-    public static ArrayList<TMT> teacher_total_TMT = new ArrayList<>();
+    public static ArrayList<TMT> teacher_active_TMT ;
+    public static ArrayList<TMT> teacher_active_TMT_but_notdone;
+    public static ArrayList<TMT> teacher_active_TMT_but_done ;
+    public static ArrayList<TMT> teacher_finish_TMT ;
+    public static ArrayList<TMT> teacher_notstart_TMT ;
+    public static ArrayList<TMT> teacher_stdToteach_TMT ;
+    public static ArrayList<TMT> teacher_total_TMT ;
 
     //*************************************************************
     @Override
@@ -63,7 +63,19 @@ public class Main3Activity extends AppCompatActivity {
         logOutTeacher = findViewById(R.id.logOutTeacher);
 
         //**************************************************************
-        //Toast.makeText(getApplicationContext(), Django.today[0]+"-"+Django.today[1]+"-"+Django.today[2]+"-", Toast.LENGTH_SHORT).show();
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                Django.getTeachersListFromJango();
+                Django.getMTList();
+                Django.getTMTList();
+                Django.getGoldreqListFromJango();
+
+            }
+
+        });
+
         getListOfTeacherInTmt();
         clickButton ();
 
@@ -77,7 +89,7 @@ public class Main3Activity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext() , "فعال نیست" ,Toast.LENGTH_LONG).show();
                 }
                 else {
-                    fragmentTransaction   =getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction   =  getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.flContainerForTechear,new SelectStudentsFragment());
                     fragmentTransaction.commit();
 
@@ -116,6 +128,7 @@ public class Main3Activity extends AppCompatActivity {
         });
     }
     public static void getListOfTeacherInTmt(){
+
 
         teacher_active_TMT = new ArrayList<>();
         teacher_active_TMT_but_done = new ArrayList<>();
@@ -159,9 +172,8 @@ public class Main3Activity extends AppCompatActivity {
         }
 
         for (int i=0 ; i<teacher_active_TMT.size();i++){
-           // Toast.makeText(this, "active tmt pk : " +teacher_active_TMT.get(i).getTmtPK() , Toast.LENGTH_SHORT).show();
             boolean bool = someOneGetGoldSign(teacher_active_TMT.get(i) );
-            if (!bool){ // not done false
+            if (!teacher_active_TMT.get(i).getSts()){ // not done false
                 //Toast.makeText(this, "active tmt :"+teacher_active_TMT.get(i).getTmtPK() , Toast.LENGTH_SHORT).show();
                 teacher_active_TMT_but_notdone.add(teacher_active_TMT.get(i));
 
@@ -173,7 +185,7 @@ public class Main3Activity extends AppCompatActivity {
         }
 
     }
-    //gold req hai k mle in mtt hstnd v prioritt=1 drn bar migrdone
+    //gold req hai k mle in mtt hstnd v priority=1 drn bar migrdone
     public static ArrayList<GoldRequest> getgoldRrqofTheTMT_withFirstChoice( TMT tmt ){
         ArrayList<GoldRequest> stdinTMT = getgoldRrqofTheTMT(tmt);
         ArrayList<GoldRequest> tmp = new ArrayList<>();

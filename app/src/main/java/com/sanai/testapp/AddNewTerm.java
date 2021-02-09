@@ -138,8 +138,7 @@ public class AddNewTerm extends Fragment {
 
     }
     public void setSpinner() {
-        Django.getDateRangeTimeList();
-        Django.getMajorList();
+
         fillListOfSpinner();
         //_____________________________Student start spinner___________________________________
 
@@ -428,6 +427,7 @@ public class AddNewTerm extends Fragment {
         try {
             postData.put("major" , major);
             postData.put("term", term);
+            postData.put("status", false);
 
         } catch (JSONException e) {
             e.printStackTrace();

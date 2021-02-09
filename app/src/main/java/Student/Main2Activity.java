@@ -64,6 +64,7 @@ public class Main2Activity extends AppCompatActivity {
         result = findViewById(R.id.showResultOfSelectionTeacherByStudentButton);
         logOutStudent = findViewById(R.id.logOutStudent);
 
+        
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }

@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
+import Teacher.Main3Activity;
+import jango.Django;
 import root.converter;
 
 public class defaultFragment extends Fragment {
@@ -31,7 +34,6 @@ public class defaultFragment extends Fragment {
         textView = view.findViewById(R.id.defaultTextView);
         //****************************date*********************************
 
-
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -39,6 +41,7 @@ public class defaultFragment extends Fragment {
         //*****************************************************************
         dateForTextview = whenIsIt();
         //setTextView(dateForTextview);
+        Django.updateList();
 
 
 

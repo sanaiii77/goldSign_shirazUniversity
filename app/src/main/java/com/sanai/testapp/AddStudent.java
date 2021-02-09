@@ -202,7 +202,7 @@ public class AddStudent extends Fragment {
         JSONObject postData = new JSONObject();
         try {
             postData.put("username" ,stdnumber );
-            postData.put("password",stdnumber+"std" );
+            postData.put("password","s" + stdnumber );
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -35,6 +35,8 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.sanai.testapp.MainActivity.Bar;
+
 public class AddMajorFragment extends Fragment {
 
     EditText majorName ;
@@ -51,9 +53,11 @@ public class AddMajorFragment extends Fragment {
         majorName = view.findViewById(R.id.majorName);
         addMajor = view.findViewById(R.id.addMajor);
         majorsSpinner = view.findViewById(R.id.listOfMajor);
+
+        //__________________________________________________________________________________
+
         //___________________________________________________________________________________
         getMajorListSetSpinner();
-        Django.getMajorList();
         add();
 
         return view;
@@ -115,6 +119,7 @@ public class AddMajorFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(getActivity(), "گرایش افزوده شد", Toast.LENGTH_LONG).show();
+                        Django.getMajorList();
 
 
 
@@ -145,6 +150,7 @@ public class AddMajorFragment extends Fragment {
     }
     public  void  goToDefaultFargment(){
 
+        Django.getMajorList();
 
         //////////////////
         Fragment newFragment = new defaultFragment();
@@ -155,10 +161,11 @@ public class AddMajorFragment extends Fragment {
         transaction.addToBackStack(null);
 
         // Commit the transaction
+        Bar.setVisibility(View.GONE);
+
         transaction.commit();
 
     }
-
     public void  dialog (final String newMajor ){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 

@@ -75,6 +75,27 @@
                 android:textSize="@dimen/_13sdp"/>
         </LinearLayout>
         <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
+        <LinearLayout
+            android:id="@+id/finishTermLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:layout_margin="5dp">
+            <Button
+                android:id="@+id/getTermDone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_margin="@dimen/_3sdp"
+                android:text="به پایان رساندن ترم"
+                android:textSize="@dimen/_14sdp"
+                android:fontFamily="@font/lalezar_font"/>
+        </LinearLayout>
+        <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/colorPrimary" />

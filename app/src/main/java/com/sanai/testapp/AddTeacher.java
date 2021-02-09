@@ -113,7 +113,7 @@ public class AddTeacher extends Fragment {
         builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int which) {
-                insertUser(username,username+99  ,getActivity().getApplicationContext());
+                insertUser(username,"t"+username  ,getActivity().getApplicationContext());
                 goToDefaultFargment();
                 dialog.dismiss();
             }
@@ -186,7 +186,6 @@ public class AddTeacher extends Fragment {
     public void insertTeacher(String name , String familyName, final Context context){
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
 
-        Toast.makeText(context, PK_for_addUserToTeacher+"", Toast.LENGTH_SHORT).show();
 
         JSONObject postData = new JSONObject();
         try {

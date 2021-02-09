@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 
 import com.sanai.testapp.R;
 
+import Teacher.Main3Activity;
+import jango.Django;
+
 public class TmtCalenderForTeacherActivity extends Fragment {
     RecyclerView recyclerView;
     TMTCalListAdapter tmtCalListAdapter;
@@ -25,6 +28,8 @@ public class TmtCalenderForTeacherActivity extends Fragment {
         View view = inflater.inflate(R.layout.activity_tmt_calender_for_teacher,container,false);
 
         recyclerView =view.findViewById(R.id.recycleCal);
+
+        Main3Activity.getListOfTeacherInTmt();
 
         tmtCalListAdapter = new TMTCalListAdapter(this.getActivity());
 

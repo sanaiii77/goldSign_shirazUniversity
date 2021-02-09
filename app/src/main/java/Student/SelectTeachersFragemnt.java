@@ -84,8 +84,9 @@ public class SelectTeachersFragemnt extends Fragment {
 
         /*_______________________________________________________________*/
         getTeacherArrayOfMT();
+        boolean bool = doneSelection();
 
-        if(doneSelection()){ //done
+        if(bool){ //done
             textView.setText(stringOfTeacher());
             notAvailable.setVisibility(View.VISIBLE);
             isAvailable.setVisibility(View.GONE);
@@ -325,7 +326,7 @@ public class SelectTeachersFragemnt extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
 
-        builder.setTitle("اانتخاب اساتید");
+        builder.setTitle("انتخاب اساتید");
         builder.setMessage("آیا از صحت اطلاعات اطمینان دارین ؟");
 
         builder.setPositiveButton("بله", new DialogInterface.OnClickListener() {

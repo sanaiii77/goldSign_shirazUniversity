@@ -317,7 +317,7 @@ public class AddDateRangeFragment extends Fragment {
                 new JsonObjectRequest(Request.Method.POST, Django.URL+"date-range/create/", postData, new com.android.volley.Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        //Toast.makeText(getActivity(), response.toString()+"", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "بازه زمانی افزوده شد", Toast.LENGTH_LONG).show();
                         System.out.println(response);
                         Django.getDateRangeTimeList();
 
